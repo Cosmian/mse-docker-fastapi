@@ -1,3 +1,4 @@
-FROM ghcr.io/cosmian/mse-base:20230217104552
+FROM ghcr.io/cosmian/mse-base:20230223111016
 
-RUN pip3 install "fastapi==0.92.0"
+RUN . /opt/venv/bin/activate && \
+    pip3 install "fastapi==0.92.0"
