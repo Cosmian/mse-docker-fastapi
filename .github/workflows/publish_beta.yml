@@ -1,9 +1,9 @@
-name: MSE FastAPI docker image
+name: MSE FastAPI docker image BETA
 
 on:
-  push:
+  pull_request:
     branches:
-      - '*'
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -16,14 +16,9 @@ jobs:
       packages: write
       contents: read
     env:
-      IMAGE: ghcr.io/cosmian/mse-fastapi
+      IMAGE: ghcr.io/cosmian/mse-fastapi-beta
 
     steps:
-      - name: Build date
-        id: build_date
-        run: |
-          echo "BUILD_DATE=$(date -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -49,8 +44,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: ${{ contains(github.ref, 'main') }}
+          push: true
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.IMAGE }}:${{ steps.build_date.outputs.BUILD_DATE }}
           labels: ${{ steps.meta.outputs.labels }}
